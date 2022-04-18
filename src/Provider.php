@@ -65,9 +65,9 @@ class Provider extends AbstractProvider
         }
 
         // Handle Oauth2 Error
-        if (isset($data['error'], $data['error_description'])) {
+        if (isset($data['error'])) {
             throw new IdentityProviderException(
-                $data['error_description'],
+                $data['error'],
                 $response->getStatusCode(),
                 $response
             );
