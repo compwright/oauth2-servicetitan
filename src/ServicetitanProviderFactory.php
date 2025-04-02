@@ -19,6 +19,7 @@ class ServicetitanProviderFactory
     public function new(
         ?string $clientId = null,
         ?string $clientSecret = null,
+        bool $enterprise = false,
         bool $sandbox = false
     ): GenericProvider {
         $provider = new GenericProvider([
@@ -28,6 +29,13 @@ class ServicetitanProviderFactory
             'urlAuthorize' => '',
             'urlResourceOwnerDetails' => '',
         ]);
+
+        if ($enterprise) {
+            $provider->getGrantFactory()->setGrant(
+                'client_credentials',
+                new EnterpriseClientCredentials()
+            );
+        }
 
         if ($this->httpClient) {
             $provider->setHttpClient($this->httpClient);

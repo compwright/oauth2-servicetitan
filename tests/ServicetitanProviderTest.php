@@ -106,4 +106,52 @@ class ServicetitanProviderTest extends TestCase
 
         $this->assertEquals('mock_access_token', $token->getToken());
     }
+
+    public function testEnterprise(): void
+    {
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())
+            ->method('send')
+            ->with($this->callback(function (RequestInterface $request): bool {
+                $body = (string) $request->getBody();
+                // var_dump($body);
+                return (
+                    'POST' === $request->getMethod() &&
+                    ServicetitanProviderFactory::TOKEN_PRODUCTION === (string) $request->getUri() &&
+                    'client_id=mock_client_id&client_secret=mock_secret&grant_type=client_credentials&tenant=3579' === $body
+                );
+            }))
+            ->willReturn(
+                new Response(
+                    200,
+                    ['content-type' => 'application/json'],
+                    '{"access_token":"mock_access_token"}'
+                )
+            );
+
+        $provider = (new ServicetitanProviderFactory($client))->new(enterprise: true);
+
+        $token = $provider->getAccessToken('client_credentials', [
+            'client_id' => 'mock_client_id',
+            'client_secret' => 'mock_secret',
+            'tenant' => '3579',
+        ]);
+
+        $this->assertEquals('mock_access_token', $token->getToken());
+    }
+
+    public function testEnterpriseTenantRequired(): void
+    {
+        $client = $this->createStub(ClientInterface::class);
+
+        $provider = (new ServicetitanProviderFactory($client))->new(
+            clientId: 'mock_client_id',
+            clientSecret: 'mock_secret',
+            enterprise: true
+        );
+
+        $this->expectExceptionMessage('Required parameter not passed: "tenant"');
+
+        $token = $provider->getAccessToken('client_credentials');
+    }
 }
