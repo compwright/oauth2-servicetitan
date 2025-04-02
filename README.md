@@ -30,8 +30,8 @@ $provider = $factory->new(
 
 // Get an access token using the authorization code grant
 $token = $provider->getAccessToken('client_credentials', [
-    'clientId'      => '{servicetitan-client-id}',
-    'clientSecret'  => '{servicetitan-client-secret}',
+    'client_id'     => '{servicetitan-client-id}',
+    'client_secret' => '{servicetitan-client-secret}',
 
     // required for Enterprise Hub clients:
     'tenant'        => '{servicetitan-tenant-id}',
