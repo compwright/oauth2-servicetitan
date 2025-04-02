@@ -15,21 +15,27 @@ composer require compwright/oauth2-servicetitan league/oauth2-client
 
 ## Usage
 
-Usage is the same as The League's OAuth client, using `\Compwright\OAuth2_Servicetitan\Provider` as the provider.
-
-> Note: for the ServiceTitan integration environment, use `\Compwright\OAuth2_Servicetitan\SandboxProvider` instead.
+Create the provider instance using the `\Compwright\OAuth2\Servicetitan\ServicetitanProviderFactory` factory class.
 
 ### Example: Authorization Code Flow
 
 ```php
-$provider = new Compwright\OAuth2_Servicetitan\Provider([
-    'clientId'      => '{servicetitan-client-id}',
-    'clientSecret'  => '{servicetitan-client-secret}',
-    'redirectUri'   => 'https://example.com/callback-url'
-]);
+$factory = new Compwright\OAuth2\Servicetitan\ServicetitanProviderFactory();
+$provider = $factory->new(
+    clientId: null,     // optional, recommended to pass as an option to getAccessToken()
+    clientSecret: null, // optional, recommended to pass as an option to getAccessToken()
+    sandbox: false,     // enable for sandbox environment
+    enterprise: false   // enable for Enterprise Hub clients
+);
 
 // Get an access token using the authorization code grant
-$token = $provider->getAccessToken('client_credentials');
+$token = $provider->getAccessToken('client_credentials', [
+    'clientId'      => '{servicetitan-client-id}',
+    'clientSecret'  => '{servicetitan-client-secret}',
+
+    // required for Enterprise Hub clients:
+    'tenant'        => '{servicetitan-tenant-id}',
+]);
 
 // Use the token to interact with an API on the users behalf
 echo $token->getToken();
@@ -38,7 +44,7 @@ echo $token->getToken();
 ## Testing
 
 ``` bash
-$ composer run-script test
+$ make test
 ```
 
 ## Contributing
