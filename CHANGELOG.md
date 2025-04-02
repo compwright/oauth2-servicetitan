@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/compwright/oauth2-servicetitan/compare/2.0.0...v2.0.1) (2025-04-02)
+
+
+### Miscellaneous Chores
+
+* fix example ([90e828a](https://github.com/compwright/oauth2-servicetitan/commit/90e828a03b0e958f9567b5961af20f04e042a5d6))
+
 ## [2.0.0](https://github.com/compwright/oauth2-servicetitan/compare/v1.0.2...v2.0.0) (2025-04-02)
 
 
