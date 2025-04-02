@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Compwright\\OAuth2_Servicetitan\\": "src/"
+            "Compwright\\OAuth2\\Servicetitan\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Compwright\\OAuth2_Servicetitan\\Test\\": "test/"
+            "Compwright\\OAuth2\\Servicetitan\\Test\\": "tests/"
         }
     }
 }
